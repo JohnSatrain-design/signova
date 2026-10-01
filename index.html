@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SIGNOVA | AI Sign Translator</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand">
+          <div class="logo-mark">SN</div>
+          <div>
+            <div class="brand-title">SIGNOVA</div>
+            <div class="brand-subtitle">AI SIGN TRANSLATOR</div>
+          </div>
+        </div>
+
+        <div class="status-strip" aria-label="System status">
+          <div class="status-pill" id="camera-status">
+            <span class="dot"></span><span>CAMERA OFFLINE</span>
+          </div>
+          <div class="status-pill" id="model-status">
+            <span class="dot"></span><span>AI MODEL OFFLINE</span>
+          </div>
+          <div class="status-pill" id="tracking-status">
+            <span class="dot"></span><span>HAND TRACKING STANDBY</span>
+          </div>
+          <div class="status-pill" id="voice-status">
+            <span class="dot"></span><span>VOICE ENGINE OFFLINE</span>
+          </div>
+        </div>
+
+        <a class="secondary-button" href="/training">Admin Training</a>
+
+        <button class="icon-button" id="settings-button" type="button" aria-label="Settings">
+          <span></span><span></span><span></span>
+        </button>
+      </header>
+
+      <main class="dashboard">
+        <section class="panel vision-panel">
+          <div class="panel-header">
+            <div>
+              <div class="eyebrow">LIVE COMPUTER VISION</div>
+              <h1>Webcam Tracking</h1>
+            </div>
+            <div class="metrics-row">
+              <div class="metric-chip" id="vision-state">AI VISION STANDBY</div>
+              <div class="metric-chip" id="fps">CAM 0.0 FPS</div>
+              <div class="metric-chip" id="ai-fps">AI 0.0 FPS</div>
+              <div class="metric-chip" id="inference-time">AI 0 ms</div>
+              <div class="metric-chip" id="tracking-confidence">TRACK 0.0%</div>
+            </div>
+          </div>
+
+          <div class="video-shell" id="video-shell">
+            <img id="video-feed" src="/video_feed" alt="Live camera feed with landmarks" />
+            <span class="hud-corner top-left"></span>
+            <span class="hud-corner top-right"></span>
+            <span class="hud-corner bottom-left"></span>
+            <span class="hud-corner bottom-right"></span>
+            <div class="scanline"></div>
+          </div>
+
+          <div class="control-row">
+            <button class="primary-button" id="start-camera" type="button">Start Camera</button>
+            <button class="secondary-button" id="stop-camera" type="button">Stop Camera</button>
+            <button class="secondary-button" id="reset-translation" type="button">Clear Translation</button>
+          </div>
+        </section>
+
+        <aside class="side-stack">
+          <section class="panel translation-panel">
+            <div class="panel-header compact">
+              <div>
+                <div class="eyebrow">AI TRANSLATION</div>
+                <h2>Recognition Output</h2>
+              </div>
+              <div class="confidence-orbit" id="confidence-orbit">
+                <span id="confidence-value">0.0%</span>
+              </div>
+            </div>
+
+            <div class="readout-block">
+              <label>Detected Sign</label>
+              <div class="readout detected" id="detected-sign">[ WAITING ]</div>
+            </div>
+            <div class="readout-block">
+              <label>Confidence</label>
+              <div class="confidence-bar">
+                <span id="confidence-bar"></span>
+              </div>
+            </div>
+            <div class="readout-block">
+              <label>Translation</label>
+              <div class="readout translation" id="translation-text">No translation yet</div>
+            </div>
+
+            <button class="speaker-button" id="speak-button" type="button" aria-label="Speak translation">
+              <svg viewBox="0 0 48 48" aria-hidden="true">
+                <path d="M7 19h8l11-9v28l-11-9H7z"></path>
+                <path d="M32 17c3 4 3 10 0 14"></path>
+                <path d="M37 12c6 7 6 17 0 24"></path>
+              </svg>
+            </button>
+          </section>
+
+          <section class="panel dataset-panel">
+            <div class="panel-header compact">
+              <div>
+                <div class="eyebrow">FIXED VOCABULARY</div>
+                <h2>Known Signs</h2>
+              </div>
+              <div class="metric-chip" id="vocabulary-count">0 SIGNS</div>
+            </div>
+
+            <div class="sample-counts" id="vocabulary-list"></div>
+          </section>
+        </aside>
+
+        <section class="panel history-panel">
+          <div class="panel-header compact">
+            <div>
+              <div class="eyebrow">TRANSLATION HISTORY</div>
+              <h2>Detected Sequence</h2>
+            </div>
+            <div class="metric-chip" id="history-count">0 ITEMS</div>
+          </div>
+          <div class="history-list" id="history-list"></div>
+        </section>
+      </main>
+    </div>
+
+    <aside class="settings-drawer" id="settings-drawer" aria-hidden="true">
+      <div class="drawer-header">
+        <div>
+          <div class="eyebrow">SYSTEM SETTINGS</div>
+          <h2>Runtime</h2>
+        </div>
+        <button class="mini-button" id="close-settings" type="button">Close</button>
+      </div>
+      <div class="settings-grid">
+        <label>Model Path</label>
+        <div id="model-path">data/models/signova_model.joblib</div>
+        <label>Loaded Labels</label>
+        <div id="loaded-labels">None</div>
+        <label>Backend</label>
+        <div id="backend-status">Checking...</div>
+        <label>Recognition</label>
+        <div id="recognition-status">IDLE</div>
+        <label>Administrator</label>
+        <a class="secondary-button" href="/training">Open Training Console</a>
+        <label>Last Error</label>
+        <div id="runtime-error">None</div>
+      </div>
+    </aside>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="/static/app.js"></script>
+  </body>
+</html>

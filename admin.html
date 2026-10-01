@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SIGNOVA | Administrator Training</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+    <style>
+      .admin-layout { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(320px, .8fr); grid-template-areas: "camera form" "status status"; gap: 18px; }
+      .admin-camera { grid-area: camera; }
+      .admin-form-panel { grid-area: form; }
+      .admin-status-panel { grid-area: status; }
+      .admin-form { display: grid; gap: 12px; }
+      .admin-form input { width: 100%; padding: 12px; border: 1px solid var(--line); border-radius: 8px; color: var(--text); background: rgba(255,255,255,.05); }
+      .admin-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+      .admin-readout { display: grid; gap: 10px; padding: 16px; border: 1px solid var(--line); border-radius: 8px; background: rgba(0,0,0,.18); }
+      .admin-readout strong { color: var(--cyan); font-size: 22px; }
+      .admin-message { min-height: 24px; color: var(--amber); }
+      .admin-list { display: grid; gap: 8px; margin-top: 12px; }
+      .admin-list-row { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 8px; border: 1px solid var(--line); border-radius: 6px; }
+      @media (max-width: 900px) { .admin-layout { grid-template-columns: 1fr; } }
+    </style>
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand"><div class="logo-mark">SN</div><div><div class="brand-title">SIGNOVA</div><div class="brand-subtitle">ADMINISTRATOR TRAINING</div></div></div>
+        <div class="status-strip"><div class="status-pill" id="camera-status"><span class="dot"></span><span>CAMERA OFFLINE</span></div><div class="status-pill" id="model-status"><span class="dot"></span><span>AI MODEL OFFLINE</span></div></div>
+        <a class="secondary-button" href="/">Translator</a>
+      </header>
+
+      <main class="admin-layout">
+        <section class="panel admin-camera">
+          <div class="panel-header"><div><div class="eyebrow">DEVELOPER WORKFLOW</div><h1>ADD NEW SIGN</h1></div><div class="metric-chip" id="recording-state">READY</div></div>
+          <div class="video-shell" id="video-shell"><img id="video-feed" src="/video_feed" alt="Live camera feed" /><span class="hud-corner top-left"></span><span class="hud-corner top-right"></span><span class="hud-corner bottom-left"></span><span class="hud-corner bottom-right"></span><div class="scanline"></div></div>
+          <div class="admin-actions" style="margin-top:16px"><button class="primary-button" id="open-camera" type="button">Open Camera</button><button class="secondary-button" id="stop-camera" type="button">Close Camera</button></div>
+        </section>
+
+        <aside class="panel admin-form-panel">
+          <div class="eyebrow">FIXED VOCABULARY</div>
+          <h2>Teach A Sign</h2>
+          <div class="admin-form">
+            <label for="sign-name">Sign Name</label>
+            <input id="sign-name" type="text" placeholder="I LOVE YOU" autocomplete="off" />
+            <div class="admin-actions"><button class="primary-button" id="start-recording" type="button">● Start Recording</button><button class="secondary-button" id="stop-recording" type="button">■ Stop Recording</button></div>
+            <div class="admin-readout"><span>Samples Recorded</span><strong id="sample-count">0</strong><span id="recording-detail">No recording active.</span></div>
+            <button class="primary-button" id="save-sign" type="button">Save Sign</button>
+            <button class="secondary-button" id="train-model" type="button">Train AI Model</button>
+            <div class="admin-message" id="message" role="status"></div>
+          </div>
+        </aside>
+
+        <section class="panel admin-status-panel"><div class="eyebrow">MODEL STATUS</div><h2>Training Output</h2><div class="admin-readout"><span>Known trained signs</span><strong id="known-signs">0</strong><span id="training-status">No training job running.</span><span id="model-error">No model loaded.</span><span id="recognition-debug">Candidate: — | Stable: 0/3</span></div></section>
+        <section class="panel admin-status-panel"><div class="eyebrow">DATA MANAGEMENT</div><h2>Active Signs</h2><div id="active-words" class="admin-list"><span>No active signs.</span></div><h2 style="margin-top:18px">Deleted Words</h2><div id="deleted-words" class="admin-list"><span>No archived signs.</span></div><button class="secondary-button" id="reset-all" type="button" style="margin-top:12px">Reset All Training Data</button></section>
+      </main>
+    </div>
+    <script src="/static/admin.js?v=2"></script>
+  </body>
+</html>
